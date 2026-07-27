@@ -1,41 +1,150 @@
-# GlobalCo_JobBoard
+# GlobalCo Job Board
 
-Welcome to the GlobalCo_JobBoard project. This repository contains both the Backend (Node.js/Express) and the Frontend (Next.js 15).
+## Project Overview
+GlobalCo Job Board is a full-stack, comprehensive web application designed to connect top talent with industry-leading companies. Built with a modern technology stack, it provides specialized dashboards for Administrators, Recruiters, and Candidates, streamlining the entire recruitment lifecycle from job posting to application management.
 
-## Frontend CI/CD Setup with Vercel
+## Business Problem
+The recruitment process is often fragmented, with companies struggling to manage job postings across multiple platforms, and candidates finding it difficult to track their applications, saved jobs, and interview statuses in one cohesive interface. Traditional solutions often lack role-specific features that cater to the unique needs of recruiters versus job seekers.
 
-This project uses **GitHub Actions** to automatically deploy the Frontend application to **Vercel** on every push to the `main` branch.
+## Solution
+GlobalCo Job Board solves this by providing a unified, centralized platform. It offers a role-based architecture where candidates can seamlessly apply for jobs and track their progress, while recruiters can manage company profiles, post jobs, and review applications through a dedicated applicant tracking interface. Administrators oversee the platform's health and user base.
 
-### How Automatic Deployment Works
-1. When code is pushed to the `main` branch (or triggered manually via GitHub Actions), the `.github/workflows/vercel-deploy.yml` workflow runs.
-2. The workflow checks out the repository and sets up Node.js.
-3. It installs the frontend dependencies using caching to speed up the process.
-4. It uses the official Vercel CLI to securely pull your Vercel project environment settings.
-5. It builds the project production artifacts.
-6. Finally, it deploys the production build directly to Vercel without publishing your tokens.
+## Features
+* **Role-Based Access Control (RBAC):** Distinct experiences for Candidates, Recruiters, and Admins.
+* **Applicant Tracking System (ATS):** Recruiters can view, update, and manage candidate applications.
+* **Advanced Job Search & Filtering:** Full-text search and filtering by job type, work mode, and status.
+* **Real-time Notifications:** Alerts for application status changes and new job postings.
+* **Resume & Portfolio Management:** Candidates can upload resumes and manage their profiles.
+* **Company Profiles:** Recruiters can create and manage company pages to attract talent.
+* **Secure Authentication:** JWT-based authentication with encrypted passwords and HTTP-only cookies (if configured).
 
-### How to connect the repository to Vercel
-1. Log in to your [Vercel](https://vercel.com/) dashboard.
-2. Ensure you do **not** connect the GitHub repository directly through the Vercel dashboard to avoid conflicts with our custom GitHub Actions workflow.
-3. Open a terminal in the `Frontend/my-app` directory locally.
-4. Run `npx vercel link` to connect your local project to a new or existing Vercel project.
-5. Follow the prompts. This will create a `.vercel` folder locally containing your `projectId` and `orgId`.
+## Technology Stack
+### Frontend
+* **Next.js 16 (App Router):** React framework for server-side rendering and static site generation.
+* **React 19:** UI library.
+* **TypeScript:** Static typing for robust code.
+* **Tailwind CSS v4:** Utility-first CSS framework for styling.
+* **React Query (@tanstack/react-query):** State management and data fetching.
+* **Axios:** Promise-based HTTP client for API requests.
 
-### How to configure GitHub Secrets
-To make the pipeline work securely without hardcoded credentials, you need to configure the following **Repository Secrets** in GitHub:
-Navigate to your GitHub repository -> **Settings** -> **Secrets and variables** -> **Actions**, and add the following secrets:
+### Backend
+* **Node.js & Express.js:** Fast, minimalist web framework.
+* **TypeScript:** Strongly typed backend logic.
+* **MongoDB & Mongoose:** NoSQL database and Object Data Modeling (ODM).
+* **Bcrypt.js & JSON Web Tokens (JWT):** Secure authentication and authorization.
+* **Joi:** Request data validation.
 
-- **`VERCEL_TOKEN`**: Your Vercel personal access token.
-  - **How to obtain**: Go to your Vercel account settings (Profile -> Settings -> Tokens). Create a new token with a descriptive name (e.g., "GitHub Actions Deploy").
-  
-- **`VERCEL_ORG_ID`**: The ID of your Vercel team/organization.
-  - **How to obtain**: After running `npx vercel link` locally, open the generated `.vercel/project.json` file. The `orgId` value is your `VERCEL_ORG_ID`.
-  
-- **`VERCEL_PROJECT_ID`**: The specific Vercel project ID for the frontend.
-  - **How to obtain**: Inside the same `.vercel/project.json` file, the `projectId` value is your `VERCEL_PROJECT_ID`.
+## Architecture
+The application follows a client-server architecture. The frontend (Next.js) communicates with the backend (Express API) via RESTful endpoints. The backend serves as the single source of truth, validating requests, enforcing RBAC, and interacting with the MongoDB database. The CI/CD pipeline ensures automated testing and deployment.
 
-- **`NEXT_PUBLIC_BACKEND_URL`**: The public URL where your backend is hosted.
-  - This is used by the Next.js frontend to communicate with your backend API.
+## Demo Credentials
+You can use the following credentials to test the different roles in the application.
 
-## Backend Setup
-The backend is prepared for manual deployment or separate automated pipelines later. It will not be automatically deployed by the Vercel frontend workflow.
+### Admin
+* **Name:** Super Admin
+* **Email:** admin@jobboard.com
+* **Password:** Password123!
+* **Role:** Administrator
+* **Login URL:** http://localhost:3000/login
+* **Dashboard URL:** http://localhost:3000/dashboard
+
+### Recruiter
+* **Name:** Jane Smith
+* **Email:** recruiter@example.com
+* **Password:** Password123!
+* **Role:** Recruiter
+* **Login URL:** http://localhost:3000/login
+* **Dashboard URL:** http://localhost:3000/dashboard/recruiter
+
+### Candidate
+* **Name:** John Doe
+* **Email:** candidate@example.com
+* **Password:** Password123!
+* **Role:** Candidate
+* **Login URL:** http://localhost:3000/login
+* **Dashboard URL:** http://localhost:3000/dashboard/candidate
+
+## Installation
+
+### Prerequisites
+* Node.js (v20 or higher recommended)
+* MongoDB (Local instance or MongoDB Atlas)
+* Git
+
+### Backend Setup
+1. Open a terminal and navigate to the backend directory:
+   ```bash
+   cd Backend
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Set up environment variables (see below).
+4. Run the development server:
+   ```bash
+   npm run dev
+   ```
+
+### Frontend Setup
+1. Open a new terminal and navigate to the frontend directory:
+   ```bash
+   cd Frontend/my-app
+   ```
+2. Install dependencies:
+   ```bash
+   npm install
+   ```
+3. Set up environment variables (see below).
+4. Run the development server:
+   ```bash
+   npm run dev
+   ```
+
+## Environment Variables
+Create a `.env` file in the `Backend` directory:
+```env
+PORT=5000
+NODE_ENV=development
+MONGODB_URI=mongodb://localhost:27017/jobboard (Or your Atlas URI)
+JWT_SECRET=your_super_secret_jwt_key
+JWT_EXPIRES_IN=7d
+```
+
+Create a `.env.local` file in the `Frontend/my-app` directory:
+```env
+NEXT_PUBLIC_BACKEND_URL=http://localhost:5000
+```
+
+## Database Setup
+To populate the database with the demo users, companies, and jobs, run the seed script from the `Backend` directory:
+```bash
+npm run seed
+```
+This will insert the Admin, Recruiter, and Candidate users, along with a demo company and job listings.
+
+## How to Build
+To build the project for production:
+
+**Backend:**
+```bash
+cd Backend
+npm run build
+# Starts the compiled server
+npm run start 
+```
+
+**Frontend:**
+```bash
+cd Frontend/my-app
+npm run build
+# Starts the production Next.js server
+npm run start
+```
+
+## CI/CD Pipeline & Deployment
+The project utilizes GitHub Actions for Continuous Integration and Continuous Deployment.
+* **Backend CI:** On push to `main`, the backend is built and tested. Production deployment is handled via Render.
+* **Frontend CI/CD:** On push to `main`, the frontend dependencies are installed, the Next.js project is built, and it is automatically deployed to **Vercel** via the Vercel CLI.
+
+**Live Application (Frontend):** [https://globalco-jobboard.vercel.app](https://globalco-jobboard.vercel.app)
