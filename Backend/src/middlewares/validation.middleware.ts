@@ -1,0 +1,14 @@
+import { Request, Response, NextFunction } from "express";
+import Joi from "joi";
+import { AppError } from "../utils/appError.util";
+
+export const validate = (schema: Joi.ObjectSchema) => {
+  return (req: Request, res: Response, next: NextFunction) => {
+    const { error } = schema.validate(req.body, { abortEarly: false });
+    if (error) {
+      const errorMessage = error.details.map((details) => details.message).join(", ");
+      return next(new AppError(errorMessage, 400));
+    }
+    next();
+  };
+};
