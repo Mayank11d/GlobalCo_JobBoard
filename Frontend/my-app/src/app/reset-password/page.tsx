@@ -4,8 +4,9 @@ import * as React from "react"
 import Link from "next/link"
 import { useAuth } from "@/hooks/useAuth"
 import { useSearchParams } from "next/navigation"
+import { Suspense } from "react"
 
-export default function ResetPasswordPage() {
+function ResetPasswordForm() {
   const { resetPassword, isResetPassLoading } = useAuth();
   const searchParams = useSearchParams();
   const tokenFromUrl = searchParams.get("token") || "";
@@ -140,5 +141,13 @@ export default function ResetPasswordPage() {
         </form>
       </div>
     </div>
+  )
+}
+
+export default function ResetPasswordPage() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ResetPasswordForm />
+    </Suspense>
   )
 }
