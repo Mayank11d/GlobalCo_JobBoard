@@ -28,7 +28,7 @@ jobs:
           cache-dependency-path: './Backend/package-lock.json'
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install
 
       - name: Generate environment from GitHub Secrets
         run: |
@@ -60,7 +60,7 @@ jobs:
           cache-dependency-path: './Frontend/my-app/package-lock.json'
 
       - name: Install dependencies
-        run: npm ci
+        run: npm install
 
       - name: Generate environment from GitHub Secrets
         run: |
