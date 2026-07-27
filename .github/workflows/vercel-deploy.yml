@@ -24,7 +24,7 @@ jobs:
 
       - name: Install dependencies
         working-directory: ./Frontend/my-app
-        run: npm ci
+        run: npm install
 
       - name: Build Next.js project
         working-directory: ./Frontend/my-app
